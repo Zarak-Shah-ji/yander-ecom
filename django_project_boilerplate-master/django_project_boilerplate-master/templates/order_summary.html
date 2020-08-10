@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+ 
+{% block content %}
+  <!--Main layout-->
+  <main>
+    <div class="container mt-4">
+      <div class="table-responsive text-nowrap">
+       <h2>Order Summary Dude!</h2>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Total price</th>
+               </tr>
+              </thead>
+              <tbody>
+                  <!--as here items is the field of Order Model which has manytomany relation with Orderitem model -->
+                  <!--all is used here bcoz there is manytomany relation btwn orderitem and order model-->
+                {% for order_item in object.items.all %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <!--for loop variable accesing the field of OrderItem models namely item which has a relation with Item Model 
+                 which has the Title field-->
+                  <td>{{ order_item.item.title }}</td>
+                  <td>${{order_item.item.price}}</td>
+                  <!--as here we are accessing the field of OrderItem model only so we can directly call it with variable used-->
+                  <td>
+                     <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i class="fas fa-minus-circle mr-2"></i></a>
+                      {{order_item.quantity}}
+                    <a href="{% url 'core:add-to-cart' order_item.item.slug %}"><i class="fas fa-plus-circle ml-2">
+                    </i></a>
+                </td>
+                  <td>
+                    {% if order_item.item.discount_price %}
+                        ${{ order_item.get_total_discount_item_price }}
+                        <span class="badge badge-success">saved ${{ order_item.get_amount_saved }}</span>
+                    {% else %}
+                         ${{ order_item.get_total_item_price }}
+                    {% endif %}
+                    <a  style='color:red' href="{% url 'core:remove-from-cart' order_item.item.slug %}"> <i class="fas fa-dumpster float-right"></i></a>
+                 </td>
+                </tr>
+                <!--for coupon code row-->
+                {% if object.coupon %}
+                <tr>
+                  <td colspan="4"><b>Coupon</b></td>
+                  <td><b> -${{ object.coupon.amount }}</b>
+                  </td>
+              </tr>
+              {% endif %}
+              <!--coupon end-->
+              <!--for if cart is empty-->
+                {% empty %}
+              <tr>
+                <td colspan="5">Your cart is empty</td>
+             </tr>
+              <tr>
+                <td colspan="5"> <a class="btn btn-amber float-right" href="/">Continue Shopping</a></td>
+             </tr>
+             <!--empty end-->
+           {% endfor %}
+              
+            
+
+                {% if object.get_total %}
+                <tr>
+                    <td colspan="4"><b>Order Total</b></td>
+                    <td><b>
+                        <!--object used here as we are directly acessing a field/object/function of Order Model-->
+                        ${{object.get_total}}
+                        </b>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5"><a class="btn btn-success float-right ml-2" href="/checkout/">Proceed to checkout</a>
+                        <a class="btn btn-amber float-right" href="/">Continue Shopping</a>
+                    </td>
+                </tr>
+               {% endif %}
+              </tbody>
+            </table>
+          
+          </div>
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+ {% endblock content %}
