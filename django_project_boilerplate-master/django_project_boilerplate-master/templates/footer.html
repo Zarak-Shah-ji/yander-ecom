@@ -1,63 +1,95 @@
-    <!--Footer-->
-    <footer class="page-footer text-center font-small mt-4 wow fadeIn">
-
-        <!--Call to action-->
-        <div class="pt-4">
-          <a class="btn btn-outline-white" href="https://mdbootstrap.com/docs/jquery/getting-started/download/" target="_blank"
-            role="button">Foxdie
-            <i class="fas fa-download ml-2"></i>
-          </a>
-          <a class="btn btn-outline-white" href="https://mdbootstrap.com/education/bootstrap/" target="_blank" role="button">Start
-            free tutorial
-            <i class="fas fa-graduation-cap ml-2"></i>
-          </a>
+<!--used for loading the cart count logic here in navbar-->
+{% load cart_template_tags %}
+<!-- Footer Section Begin -->
+{% load static %}
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-7">
+        <div class="footer__about">
+          <div class="footer__logo">
+            <a href="./index.html"><img src="img/logo.png" alt="" /></a>
+          </div>
+          <p>
+            Online shopping for exquisite Kashmir Art and Craft made easy at
+            Yemberzal.<br /><br />
+            "A brand is a Voice, and a product is a Souvenir."
+          </p>
+          <div class="footer__payment">
+            <a href="#"
+              ><img src="{% static 'core/img/payment/payment-1.png' %}" alt=""
+            /></a>
+            <a href="#"
+              ><img src="{% static 'core/img/payment/payment-2.png' %}" alt=""
+            /></a>
+            <a href="#"
+              ><img src="{% static 'core/img/payment/payment-3.png' %}" alt=""
+            /></a>
+            <a href="#"
+              ><img src="{% static 'core/img/payment/payment-4.png' %}" alt=""
+            /></a>
+            <a href="#"
+              ><img src="{% static 'core/img/payment/payment-5.png' %}" alt=""
+            /></a>
+          </div>
         </div>
-        <!--/.Call to action-->
-    
-        <hr class="my-4">
-    
-        <!-- Social icons -->
-        <div class="pb-4">
-          <a href="https://www.facebook.com/mdbootstrap" target="_blank">
-            <i class="fab fa-facebook-f mr-3"></i>
-          </a>
-    
-          <a href="https://twitter.com/MDBootstrap" target="_blank">
-            <i class="fab fa-twitter mr-3"></i>
-          </a>
-    
-          <a href="https://www.youtube.com/watch?v=7MUISDJ5ZZ4" target="_blank">
-            <i class="fab fa-youtube mr-3"></i>
-          </a>
-    
-          <a href="https://plus.google.com/u/0/b/107863090883699620484" target="_blank">
-            <i class="fab fa-google-plus-g mr-3"></i>
-          </a>
-    
-          <a href="https://dribbble.com/mdbootstrap" target="_blank">
-            <i class="fab fa-dribbble mr-3"></i>
-          </a>
-    
-          <a href="https://pinterest.com/mdbootstrap" target="_blank">
-            <i class="fab fa-pinterest mr-3"></i>
-          </a>
-    
-          <a href="https://github.com/mdbootstrap/bootstrap-material-design" target="_blank">
-            <i class="fab fa-github mr-3"></i>
-          </a>
-    
-          <a href="http://codepen.io/mdbootstrap/" target="_blank">
-            <i class="fab fa-codepen mr-3"></i>
-          </a>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-5">
+        <div class="footer__widget">
+          <h6>Quick links</h6>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blogs</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
         </div>
-        <!-- Social icons -->
-    
-        <!--Copyright-->
-        <div class="footer-copyright py-3">
-          © 2019 Copyright:
-          <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-4">
+        <div class="footer__widget">
+          <h6>Account</h6>
+          <ul>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Orders</a></li>
+            <li><a href="#">Checkout</a></li>
+            <li><a href="#">Wishlist</a></li>
+          </ul>
         </div>
-        <!--/.Copyright-->
-    
-      </footer>
-      <!--/.Footer-->
+      </div>
+      <div class="col-lg-4 col-md-8 col-sm-8">
+        <div class="footer__newslatter">
+          <h6>NEWSLETTER</h6>
+          <form action="#">
+            <input type="text" placeholder="Email" />
+            <button type="submit" class="site-btn">Subscribe</button>
+          </form>
+          <div class="footer__social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-youtube-play"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+            <a href="#"><i class="fa fa-pinterest"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="footer__copyright__text">
+          <p>
+            Copyright &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            All rights reserved | This Website is made with
+            <i class="fa fa-heart" aria-hidden="true"></i> by
+            <a href="https://instagram.com/foxdie.offical" target="_blank"
+              >Foxdie</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer Section End -->

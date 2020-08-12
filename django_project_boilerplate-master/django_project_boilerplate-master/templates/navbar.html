@@ -1,84 +1,136 @@
- <!--used for loading the cart count logic here in navbar-->
- {% load cart_template_tags %}
+<!--used for loading the cart count logic here in navbar-->
+{% load cart_template_tags %}
 
-  <!-- Navbar -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
-    <div class="container">
+<!-- Page Preloder -->
+<!-- <div id="preloder">
+  <div class="loader"></div>
+</div> -->
 
-      <!-- Brand -->
-      <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
-        <strong class="blue-text">fumble</strong>
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+  <div class="offcanvas__close">+</div>
+  <ul class="offcanvas__widget" style="margin-right: 23px; text-align: right;">
+    <li><span class="icon_search search-switch    "></span></li>
+    {% if request.user.is_authenticated %}
+    <!-- <li>
+      <a href="#"
+        ><span class="icon_heart_alt"></span>
+        <div class="tip">2</div>
       </a>
+    </li> -->
+    <li>
+      <a href="{% url 'core:order-summary' %}"
+        ><span class="icon_bag_alt"></span>
+        <div class="tip">{% if request.user|cart_item_count == None %}<span>0</span>{% else %}<span>{{request.user|cart_item_count}}</span>{% endif %}</div>
+      </a>
+    </li> 
+    {% endif %}
+  </ul>
+  <div class="offcanvas__logo">
+    <a href="./index.html"
+      ><span
+        style="
+          font-family: 'Butterfly Kids', cursive;
+          color: black;
+          font-size: 50px;
+        "
+        >Yander</span
+      ></a
+    >
+  </div>
+  <div id="mobile-menu-wrap"></div>
+  <div class="offcanvas__auth">
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'account_logout' %}">Logout</a>
+    {% else %}
+    <a href="{% url 'account_login' %}">Login</a>
+    <a href="{% url 'account_signup' %}">Register</a>
+    {% endif %}
+  </div>
+</div>
+<!-- Offcanvas Menu End -->
 
-      <!-- Collapse -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <!-- Links -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-        <!-- Left -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link waves-effect" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">Checkout</a>
-        </ul>
-
-        <!-- Right -->
-        <ul class="navbar-nav nav-flex-icons">
-            {% if request.user.is_authenticated %}
-          <li class="nav-item">
-            <a href="{% url 'core:order-summary' %}" class="nav-link waves-effect">
-                <!----why request.user Or with item cart count???-->
-              <span class="badge red z-depth-1 mr-1"> {{request.user|cart_item_count }} </span>
-              <i class="fas fa-shopping-cart"></i>
-              <span class="clearfix d-none d-sm-inline-block"> Cart </span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'account_logout' %}">
-              <span class="clearfix d-none d-sm-inline-block">Logout </span>
-            </a>
-          </li>
-
-            {% else %}
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'account_login' %} ">
-              <span class="clearfix d-none d-sm-inline-block">Login</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'account_signup' %}">
-              <span class="clearfix d-none d-sm-inline-block"> Signup </span>
-            </a>
-          </li>
-          {% endif %}
-
-
-
-
-          <li class="nav-item">
-            <a href="https://www.facebook.com/mdbootstrap" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="https://twitter.com/MDBootstrap" class="nav-link waves-effect" target="_blank">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </li>
-        </ul>
-
+<!-- Header Section Begin -->
+<header class="header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-3 col-lg-2">
+        <div class="header__logo p-0 pl-1">
+          <a href="./index.html"
+            ><span
+              style="
+                font-family: 'Butterfly Kids', cursive;
+                color: black;
+                font-size: 50px;
+              "
+              >Yander</span
+            ></a
+          >
+        </div>
       </div>
-
+      <div class="col-xl-6 col-lg-7">
+        <nav class="header__menu">
+          <ul>
+            <li class="active"><a href="./index.html">Home</a></li>
+            <li><a href="#">Clothing</a>
+              <ul class="dropdown">
+                <li>
+                  <a href="./product-details.html">Shawls</a>
+                </li>
+                <li><a href="./checkout.html">Gowns</a></li>
+                <li><a href="./blog-details.html">Scarfs</a></li>
+              </ul></li>
+              <li><a href="#">Decor</a></li>
+            <li>
+              <a href="#">Food</a>
+              <ul class="dropdown">
+                <li>
+                  <a href="./product-details.html">Saffron</a>
+                </li>
+                <li><a href="./shop-cart.html">Honey</a></li>
+                <li><a href="./checkout.html">Dry Fruits</a></li>
+                <li><a href="./blog-details.html">More  </a></li>
+              </ul>
+            </li>
+            <li><a href="./blog.html">Blog</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3">
+        <div class="header__right">
+          {% if request.user.is_authenticated %}
+          <ul class="header__right__widget">
+            <li><span class="icon_search search-switch"></span></li>
+            <!-- <li>
+              <a href="#"
+                ><span class="icon_heart_alt"></span>
+                <div class="tip">2</div>
+              </a>
+            </li> -->
+            <li>
+              <a href="{% url 'core:order-summary' %}"
+               class= ><span class="icon_bag_alt"></span>
+                <div class="tip">{% if request.user|cart_item_count == None %}<span>0</span>{% else %}<span>{{request.user|cart_item_count}}</span>{% endif %}</div>
+              </a>
+            </li>
+          </ul>
+          <div class="header__right__auth pl-4">
+            <a href="{% url 'account_logout' %}">Logout</a>
+          </div>
+          {% else %}
+          <div class="header__right__auth">
+            <a href="{% url 'account_login' %}">Login</a>
+            <a href="{% url 'account_signup' %}">Register</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
     </div>
-  </nav>
-  <!-- Navbar -->
+    <div class="canvas__open">
+      <i class="fa fa-bars"></i>
+    </div>
+  </div>
+</header>
+<!-- Header Section End -->
