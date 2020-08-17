@@ -1,92 +1,217 @@
-{% extends "base.html" %}
- 
-{% block content %}
-  <!--Main layout-->
-  <main>
-    <div class="container mt-4">
-      <div class="table-responsive text-nowrap">
-       <h2>Order Summary Dude!</h2>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Item name</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Total price</th>
-               </tr>
-              </thead>
-              <tbody>
-                  <!--as here items is the field of Order Model which has manytomany relation with Orderitem model -->
-                  <!--all is used here bcoz there is manytomany relation btwn orderitem and order model-->
-                {% for order_item in object.items.all %}
-                <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  <!--for loop variable accesing the field of OrderItem models namely item which has a relation with Item Model 
+{% extends "base.html" %} {% block content %}
+
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__links">
+          <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Home</a>
+          <span>Shopping cart</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Heading -->
+<h2 class="my-5 h2 text-center"><b>Order Summary</b></h2>
+
+<!-- Shop Cart Section Begin -->
+<section class="shop-cart spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="shop__cart__table">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!--as here items is the field of Order Model which has manytomany relation with Orderitem model -->
+              <!--all is used here bcoz there is manytomany relation btwn orderitem and order model-->
+              {% for order_item in object.items.all %}
+              <tr>
+                <!--for loop variable accesing the field of OrderItem models namely item which has a relation with Item Model 
                  which has the Title field-->
-                  <td>{{ order_item.item.title }}</td>
-                  <td>${{order_item.item.price}}</td>
-                  <!--as here we are accessing the field of OrderItem model only so we can directly call it with variable used-->
-                  <td>
-                     <a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><i class="fas fa-minus-circle mr-2"></i></a>
-                      {{order_item.quantity}}
-                    <a href="{% url 'core:add-to-cart' order_item.item.slug %}"><i class="fas fa-plus-circle ml-2">
-                    </i></a>
+                <td class="cart__product__item">
+                  <!-- <img src="img/shop-cart/cp-1.jpg" alt="" /> -->
+                  <div class="cart__product__item__title">
+                    <h6>{{ order_item.item.title }}</h6>
+                    <div class="rating">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                    </div>
+                  </div>
                 </td>
-                  <td>
-                    {% if order_item.item.discount_price %}
-                        ${{ order_item.get_total_discount_item_price }}
-                        <span class="badge badge-success">saved ${{ order_item.get_amount_saved }}</span>
-                    {% else %}
-                         ${{ order_item.get_total_item_price }}
-                    {% endif %}
-                    <a  style='color:red' href="{% url 'core:remove-from-cart' order_item.item.slug %}"> <i class="fas fa-dumpster float-right"></i></a>
-                 </td>
-                </tr>
-                <!--for coupon code row-->
-                {% if object.coupon %}
-                <tr>
-                  <td colspan="4"><b>Coupon</b></td>
-                  <td><b> -${{ object.coupon.amount }}</b>
-                  </td>
+                <td class="cart__price">&#x20B9;{{order_item.item.price}}</td>
+                <td class="cart__quantity">
+                  <a
+                    href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"
+                    style="text-decoration: none; color: inherit;"
+                    ><i class="fa fa-minus ml-2"></i
+                  ></a>
+                  <span class="p-lg-4 p-md-4 p-sm-4"
+                    >{{order_item.quantity}}</span
+                  >
+                  <a
+                    href="{% url 'core:add-to-cart' order_item.item.slug %}"
+                    style="text-decoration: none; color: inherit;"
+                    ><i class="fa fa-plus"> </i
+                  ></a>
+                </td>
+                <td class="cart__total">
+                  {% if order_item.item.discount_price %} &#x20B9;<span
+                    >{{ order_item.get_total_discount_item_price }}</span
+                  >
+                  <span class="badge badge-success"
+                    >saved &#x20B9;{{ order_item.get_amount_saved }}</span
+                  >
+                  {% else %} &#x20B9;
+                  <span>{{ order_item.get_total_item_price }}</span>{% endif %}
+                </td>
+                <td class="cart__close">
+                  <a
+                    href="{% url 'core:remove-from-cart' order_item.item.slug %}"
+                  >
+                    <span class="icon_close"></span
+                  ></a>
+                </td>
+              </tr>
+              <!-- --------------------------------->
+              <!--for coupon code row-->
+              {% if object.coupon %}
+              <tr>
+                <td colspan="3"><b>Coupon Discount</b></td>
+                <td><b> -&#x20B9;{{ object.coupon.amount }}</b></td>
               </tr>
               {% endif %}
               <!--coupon end-->
               <!--for if cart is empty-->
-                {% empty %}
+              {% empty %}
               <tr>
-                <td colspan="5">Your cart is empty</td>
-             </tr>
+                <td colspan="5 " class="text-center">
+                  It seems your cart is empty, lets fill it up with some
+                  happiness :)
+                </td>
+              </tr>
+
+              <!--empty end-->
+              {% endfor %}
+
+              <!-- <tr>
+                <td class="cart__product__item">
+                  <img src="img/shop-cart/cp-2.jpg" alt="" />
+                  <div class="cart__product__item__title">
+                    <h6>Zip-pockets pebbled tote briefcase</h6>
+                    <div class="rating">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price">$ 170.0</td>
+                <td class="cart__quantity">
+                  <div class="pro-qty">
+                    <input type="text" value="1" />
+                  </div>
+                </td>
+                <td class="cart__total">$ 170.0</td>
+                <td class="cart__close">
+                  <span class="icon_close"></span>
+                </td>
+              </tr>
               <tr>
-                <td colspan="5"> <a class="btn btn-amber float-right" href="/">Continue Shopping</a></td>
-             </tr>
-             <!--empty end-->
-           {% endfor %}
-              
-            
-
-                {% if object.get_total %}
-                <tr>
-                    <td colspan="4"><b>Order Total</b></td>
-                    <td><b>
-                        <!--object used here as we are directly acessing a field/object/function of Order Model-->
-                        ${{object.get_total}}
-                        </b>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5"><a class="btn btn-success float-right ml-2" href="/checkout/">Proceed to checkout</a>
-                        <a class="btn btn-amber float-right" href="/">Continue Shopping</a>
-                    </td>
-                </tr>
-               {% endif %}
-              </tbody>
-            </table>
-          
-          </div>
-
+                <td class="cart__product__item">
+                  <img src="img/shop-cart/cp-3.jpg" alt="" />
+                  <div class="cart__product__item__title">
+                    <h6>Black jean</h6>
+                    <div class="rating">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price">$ 85.0</td>
+                <td class="cart__quantity">
+                  <div class="pro-qty">
+                    <input type="text" value="1" />
+                  </div>
+                </td>
+                <td class="cart__total">$ 170.0</td>
+                <td class="cart__close">
+                  <span class="icon_close"></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="cart__product__item">
+                  <img src="img/shop-cart/cp-4.jpg" alt="" />
+                  <div class="cart__product__item__title">
+                    <h6>Cotton Shirt</h6>
+                    <div class="rating">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price">$ 55.0</td>
+                <td class="cart__quantity">
+                  <div class="pro-qty">
+                    <input type="text" value="1" />
+                  </div>
+                </td>
+                <td class="cart__total">$ 110.0</td>
+                <td class="cart__close">
+                  <span class="icon_close"></span>
+                </td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </main>
-  <!--Main layout-->
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="cart__btn">
+          <a href="{% url 'core:home' %}">Continue Shopping</a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        {% if object.get_total %}
+        <div class="cart__total__procced">
+          <h6>Cart total</h6>
+          <ul>
+            <li>Subtotal <span>&#x20B9;{{object.get_total}}</span></li>
+            <li>Total <span>&#x20B9;{{object.get_total}}</span></li>
+          </ul>
+          <a href="/checkout/" class="primary-btn">Proceed to checkout</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shop Cart Section End -->
 
- {% endblock content %}
+{% endblock content %}

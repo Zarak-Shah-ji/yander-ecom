@@ -28,7 +28,7 @@
     {% endif %}
   </ul>
   <div class="offcanvas__logo">
-    <a href="./index.html"
+    <a href="{% url 'core:home' %}"
       ><span
         style="
           font-family: 'Butterfly Kids', cursive;
@@ -57,7 +57,7 @@
     <div class="row">
       <div class="col-xl-3 col-lg-2">
         <div class="header__logo p-0 pl-1">
-          <a href="./index.html"
+          <a href="{% url 'core:home' %}"
             ><span
               style="
                 font-family: 'Butterfly Kids', cursive;
@@ -72,7 +72,7 @@
       <div class="col-xl-6 col-lg-7">
         <nav class="header__menu">
           <ul>
-            <li class="active"><a href="./index.html">Home</a></li>
+            <li class="active"><a href="{% url 'core:home' %}">Home</a></li>
             <li><a href="#">Clothing</a>
               <ul class="dropdown">
                 <li>

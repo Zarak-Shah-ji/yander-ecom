@@ -110,7 +110,7 @@
             <div class="label new">New</div>
             <ul class="product__hover">
               <li>
-                <a href="#" class="image-popup"
+                <a href="{{ item.image.url }}" class="image-popup"
                   ><span class="arrow_expand"></span
                 ></a>
               </li>
@@ -133,11 +133,16 @@
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
             </div>
+            {% if item.discount_price %}
             <div class="product__price">
-              {% if item.discount_price %}<span
-                >&#x20B9;{{ item.discount_price }}</span
-              >{% endif %} &#x20B9;{{ item.price }}
+              <span>&#x20B9;{{ item.price }} </span>
+              &#x20B9;{{ item.discount_price }}
             </div>
+            {% else %}
+            <div class="product__price">
+              &#x20B9;{{ item.price }}
+            </div>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -693,7 +698,7 @@
         >
           <div class="instagram__text">
             <i class="fa fa-instagram"></i>
-            <a href="#">@ ashion_shop</a>
+            <a href="#">@yander</a>
           </div>
         </div>
       </div>
@@ -704,7 +709,7 @@
         >
           <div class="instagram__text">
             <i class="fa fa-instagram"></i>
-            <a href="#">@ ashion_shop</a>
+            <a href="#">@yander</a>
           </div>
         </div>
       </div>
@@ -715,7 +720,7 @@
         >
           <div class="instagram__text">
             <i class="fa fa-instagram"></i>
-            <a href="#">@ ashion_shop</a>
+            <a href="#">@yander</a>
           </div>
         </div>
       </div>
@@ -726,7 +731,7 @@
         >
           <div class="instagram__text">
             <i class="fa fa-instagram"></i>
-            <a href="#">@ ashion_shop</a>
+            <a href="#">@yander</a>
           </div>
         </div>
       </div>
@@ -737,7 +742,7 @@
         >
           <div class="instagram__text">
             <i class="fa fa-instagram"></i>
-            <a href="#">@ ashion_shop</a>
+            <a href="#">@yander</a>
           </div>
         </div>
       </div>
@@ -748,7 +753,7 @@
         >
           <div class="instagram__text">
             <i class="fa fa-instagram"></i>
-            <a href="#">@ ashion_shop</a>
+            <a href="#">@yander</a>
           </div>
         </div>
       </div>

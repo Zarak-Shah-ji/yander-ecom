@@ -578,12 +578,8 @@ def remove_single_item_from_cart(request,slug):
 #func for getting coupon in Addcoupon view
 
 def get_coupon(request,code):
-    try:
-        coupon = Coupon.objects.get(code=code)
-        return coupon
-    except ObjectDoesNotExist:
-        messages.info(request,"This coupon does not exist" )
-        return redirect("core:checkout")
+	coupon = Coupon.objects.get(code=code)
+	return coupon
 
 #imp :we cant send a get request to the below class based view because we havnt defined a get func in it
 class AddCouponView(View):
@@ -600,9 +596,13 @@ class AddCouponView(View):
                 order.save()
                 messages.success(self.request,"Coupon successfully applied" )
                 return redirect("core:checkout")
-                
+
+            except ValueError:
+                messages.info(self.request,"The Promo-Code entered does not exist" )
+                return redirect("core:checkout")
+				
             except ObjectDoesNotExist:
-                messages.info(self.request,"You do not have an active order" )
+                messages.info(self.request,"The Promo-Code entered does not exist" )
                 return redirect("core:checkout")
         
    
