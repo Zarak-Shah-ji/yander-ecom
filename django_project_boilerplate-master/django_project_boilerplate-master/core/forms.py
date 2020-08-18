@@ -54,7 +54,7 @@ class CouponForm(forms.Form):
     # \ is used for special charracters in dictionary data type
 
 class RefundForm(forms.Form):
-    ref_code = forms.CharField()
+    ref_code = forms.CharField(help_text='Sent via Email during order confirmation')
     message =forms.CharField(widget= forms.Textarea(attrs={
         'row':3
 
@@ -74,9 +74,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Sign Up Form
 class MyCustomSignupForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=False, help_text='Optional')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional')
-    email = forms.EmailField(max_length=254, help_text='Enter a valid email address')
+    first_name = forms.CharField(max_length=30, required=False, help_text='')
+    last_name = forms.CharField(max_length=30, required=False, help_text='')
+    email = forms.EmailField(max_length=254, help_text='Enter a valid Email address')
 
     class Meta:
         model = User

@@ -20,7 +20,8 @@
         <div class="row wow fadeIn">
           <div class = "col-6 offset-3">
 
-                    <h1>{% trans "Sign In" %}</h1>
+                  
+                    <h2 class="my-5 h2 text-center"><b>{% trans "Sign In" %}</b></h2>
 
           {% get_providers as socialaccount_providers %}
 
@@ -42,8 +43,11 @@
           {% include "socialaccount/snippets/login_extra.html" %}
 
           {% else %}
-          <p>{% blocktrans %}If you have not created an account yet, then please
-          <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+        
+          <p class="my-5 h6 text-center">
+            {% blocktrans %}If you have not created an account yet, then please
+          <a href="{{ signup_url }}">Sign Up</a> first{% endblocktrans %}
+          </p>
           {% endif %}
 
           <form class="login" method="POST" action="{% url 'account_login' %}">
@@ -52,8 +56,18 @@
             {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
-            <a class="btn btn-brown" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-            <button class="btn btn-cyan" type="submit">{% trans "Sign In" %}</button>
+            <div class="text-center">
+              <button
+                class="btn btn-secondary btn-md waves-effect mb-3 site-btn"
+                type="submit"
+              >
+              {% trans "Sign In" %}
+              </button>
+            </div>
+            <div class="text-center">
+              <a class="text-muted" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+            </div>
+           
           </form>
         </div>
       </div>

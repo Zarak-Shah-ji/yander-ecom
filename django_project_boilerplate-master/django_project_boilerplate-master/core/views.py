@@ -633,12 +633,12 @@ class RequestRefundView(View):
                 refund.email = email
                 refund.save()
 
-                messages.info(self.request,"Your request is important to us! We are working on it asap.")
+                messages.info(self.request,"Your request is really important to us, We will work on it ASAP!")
                 return redirect("core:request-refund")
 
             
             except ObjectDoesNotExist:
-                messages.info(self.request,"This order does not exist")
+                messages.info(self.request,"This Order Does Not Exist")
                 return redirect("core:request-refund")
 
 
@@ -656,7 +656,7 @@ class MyCustomSignupForm(CreateView):
             return redirect("/")
         except Exception as e:
             # Something else happened, 
-            messages.warning(self.request,"You are logged in as admin user, Please login as casual user!")
+            messages.warning(self.request,"You are logged in as admin user, Please login as casual user")
             return redirect("/")
             
 

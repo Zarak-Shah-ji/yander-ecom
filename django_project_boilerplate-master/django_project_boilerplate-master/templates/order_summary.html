@@ -44,6 +44,11 @@
                 <!--for loop variable accesing the field of OrderItem models namely item which has a relation with Item Model 
                  which has the Title field-->
                 <td class="cart__product__item">
+                  <img
+                    src="{{ order_item.item.image.url }}"
+                    alt=""
+                    style="width: 60px;"
+                  />
                   <!-- <img src="img/shop-cart/cp-1.jpg" alt="" /> -->
                   <div class="cart__product__item__title">
                     <h6>{{ order_item.item.title }}</h6>
@@ -76,7 +81,7 @@
                   {% if order_item.item.discount_price %} &#x20B9;<span
                     >{{ order_item.get_total_discount_item_price }}</span
                   >
-                  <span class="badge badge-success"
+                  <span class="badge badge-success p-1"
                     >saved &#x20B9;{{ order_item.get_amount_saved }}</span
                   >
                   {% else %} &#x20B9;
@@ -92,12 +97,12 @@
               </tr>
               <!-- --------------------------------->
               <!--for coupon code row-->
-              {% if object.coupon %}
+              {% if object.coupon %} {% if forloop.last %}
               <tr>
                 <td colspan="3"><b>Coupon Discount</b></td>
                 <td><b> -&#x20B9;{{ object.coupon.amount }}</b></td>
               </tr>
-              {% endif %}
+              {% endif %} {% endif %}
               <!--coupon end-->
               <!--for if cart is empty-->
               {% empty %}
@@ -205,7 +210,11 @@
             <li>Subtotal <span>&#x20B9;{{object.get_total}}</span></li>
             <li>Total <span>&#x20B9;{{object.get_total}}</span></li>
           </ul>
-          <a href="/checkout/" class="primary-btn">Proceed to checkout</a>
+          <a
+            href="/checkout/"
+            class="btn btn-secondary btn-lg btn-block site-btn"
+            >Proceed to checkout</a
+          >
         </div>
         {% endif %}
       </div>
