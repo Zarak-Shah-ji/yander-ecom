@@ -43,7 +43,7 @@ class OrderSummaryView(LoginRequiredMixin,View):
             }
             return render(self.request,'order_summary.html',context)
         except ObjectDoesNotExist:
-            messages.warning(self.request,"You don't have an active order,Buy something!")
+            messages.warning(self.request,"You don't have any active order, Buy something first")
             return redirect("/")
     
 
@@ -105,7 +105,7 @@ class CheckoutView(View):
             return render(self.request,"checkout.html",context)
         
         except ObjectDoesNotExist:
-            messages.info(self.request,"You do not have an active order" )
+            messages.info(self.request,"You do not have any active order" )
             return redirect("/")
         
 
@@ -266,7 +266,7 @@ class CheckoutView(View):
                     order.ref_code =create_ref_code()
                     order.being_delivered=True
                     order.save()
-                    messages.success(self.request,"Order Successfully placed.Keep your Cash ready!")
+                    messages.success(self.request,"Your order has been successfully placed, keep your Cash ready at the time of delivery")
                     return redirect("/",payment_option='Cash-On-Delivery')
                     
 
@@ -277,7 +277,7 @@ class CheckoutView(View):
                     return redirect("core:checkout")
 
         except ObjectDoesNotExist:
-            messages.warning(self.request,"You don't have an active order,Buy something!")
+            messages.warning(self.request,"You don't have any active order, add something to your cart first")
             return redirect("core:order-summary")
         print(self.request.POST)
 
@@ -297,7 +297,7 @@ class PaymentView(View):
                 userprofile = self.request.user.userprofile
             except Exception as e:
                 # Something else happened, 
-                messages.warning(self.request,"You are logged in as admin user, Please login as casual user!")
+                messages.warning(self.request,"You are logged in as an admin user, please login as a casual user")
                 return redirect("/")
 
             if userprofile.one_click_purchasing:
@@ -317,7 +317,7 @@ class PaymentView(View):
 
             return render(self.request,"payment.html",context)
         else:
-            messages.warning(self.request,"You have not added a billing address Buddy!")
+            messages.warning(self.request,"You have not added a billing address")
             return redirect("core:checkout")
             
 
@@ -407,7 +407,7 @@ class PaymentView(View):
 
            #######################   PLACE END  ###########################
                             
-            messages.success(self.request,"Your Order was Successfully placed. Be ready for delivery soon!")
+            messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
         #redirect is used to go back to homepage after order succesffuly placed
             return redirect("/")
 
@@ -427,7 +427,7 @@ class PaymentView(View):
                         
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
-            messages.success(self.request,"Your Order was Successfully placed. Be ready for delivery soon")
+            messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
             return redirect("/")
 
         except stripe.error.AuthenticationError as e:
@@ -444,12 +444,12 @@ class PaymentView(View):
         except stripe.error.StripeError as e:
         # Display a very generic error to the user, and maybe send
         # yourself an email
-            messages.warning(self.request,"Something went wrong. You were not charged . Please try again")
+            messages.warning(self.request,"Something went wrong. You were not charged, please try again")
             return redirect("/")
 
         except Exception as e:
                         # Something else happened, completely unrelated to Stripe
-            messages.warning(self.request,"A serious error occured,We have notified the developers")
+            messages.warning(self.request,"A serious error occured, we have notified the developers")
             return redirect("/")
                     
 
@@ -484,12 +484,12 @@ def add_to_cart(request,slug):
             #if the above condtn is met that means the item is already in the cart
             order_item.quantity += 1
             order_item.save()
-            messages.info(request,"This item quantity was updated nigga." )
+            messages.info(request,"Item quantity was updated" )
             return redirect("core:order-summary")
         #if there isnt a order yet
         #it redirects to the same pg if it is the first order of the item
         else:
-            messages.info(request,"This item was added to your cart Boss." )
+            messages.info(request,"Item added to cart" )
             order.items.add(order_item)
             return redirect("core:product",slug=slug)
 
@@ -562,16 +562,16 @@ def remove_single_item_from_cart(request,slug):
                 order_item.save()
             else:
                 order.items.remove(order_item)
-            messages.info(request,"This item quantity was updated" )
+            messages.info(request,"The item quantity was updated" )
             #we dont pass a slug here as order-summry url doesnt use slug 
             return redirect("core:order-summary")
         else:
             #add a msg saying the order does not contain the item
-            messages.info(request,"This item was not in your cart Boss." )
+            messages.info(request,"This item was not in your cart" )
             return redirect("core:product",slug=slug)
     else:
         #add amsg saying the user doesnt hve an order
-        messages.info(request,"You do not have an active order" )
+        messages.info(request,"You do not have any active order" )
         return redirect("core:product",slug=slug)
 
 
@@ -594,15 +594,15 @@ class AddCouponView(View):
                 order = Order.objects.get(user=self.request.user,ordered=False)
                 order.coupon =get_coupon(self.request,code)
                 order.save()
-                messages.success(self.request,"Coupon successfully applied" )
+                messages.success(self.request,"Coupon applied successfully" )
                 return redirect("core:checkout")
 
             except ValueError:
-                messages.info(self.request,"The Promo-Code entered does not exist" )
+                messages.info(self.request,"The Promo-Code entered is Invalid" )
                 return redirect("core:checkout")
 				
             except ObjectDoesNotExist:
-                messages.info(self.request,"The Promo-Code entered does not exist" )
+                messages.info(self.request,"The Promo-Code entered is Invalid" )
                 return redirect("core:checkout")
         
    
