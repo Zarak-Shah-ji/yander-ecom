@@ -16,4 +16,4 @@ def cart_item_count(user):
             #returning the only order if it exists and keeping the count of it 
             return qs[0].items.count()
     #if user is not authenticated
-    return
+    return 0

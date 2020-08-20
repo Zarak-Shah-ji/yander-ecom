@@ -1,58 +1,64 @@
 <div class="col-md-12 mb-4">
+  <!-- Heading -->
+  <h4 class="d-flex justify-content-between align-items-center mb-3">
+    <span class="text-muted">Your cart</span>
+    <span class="badge badge-secondary badge-pill"
+      >{{ order.items.count }}</span
+    >
+  </h4>
 
-    <!-- Heading -->
-    <h4 class="d-flex justify-content-between align-items-center mb-3">
-      <span class="text-muted">Your cart</span>
-      <span class="badge badge-secondary badge-pill">{{ order.items.count }}</span>
-    </h4>
-
-    <!-- Cart -->
-    <ul class="list-group mb-3 z-depth-1">
-        {%  for order_item in order.items.all %}
-      <li class="list-group-item d-flex justify-content-between lh-condensed">
-        <div>
-          <h6 class="my-0">{{order_item.quantity }} x {{order_item.item.title }}</h6>
-          <small class="text-muted">{{ order_item.item.description }}</small>
-        </div>
-        <span class="text-muted">{{order_item.get_final_price }}</span>
-      </li>
-      {% endfor %}
-      {% if order.coupon %}
-      <li class="list-group-item d-flex justify-content-between bg-light">
-        <div class="text-success">
-          <h6 class="my-0">Promo code</h6>
-          <small>{{order.coupon.code}}</small>
-        </div>
-        <span class="text-success">-{{order.coupon.amount }}</span>
-      </li>
-      {% endif %}
-      <li class="list-group-item d-flex justify-content-between">
-        <span>Total: </span>
-        <strong>{{order.get_total }}</strong>
-      </li>
-    </ul>
-    <!-- Cart -->
-
-    <!-- Promo code -->
-    <!--if you don't specify the method as POST error would be "didn't return an HTTPPRESPONSE object-->
-    <!--bascically it would try a get request-->
-
-     <!--DISPLY_COUPON_FORM is given to context of both checkout and paymnet pg and kept true/false according to the need-->
-     {% if DISPLAY_COUPON_FORM %}
-    <form class="card p-2" action="{% url 'core:add-coupon' %}" method ="POST">
-        {% csrf_token %}
-        <!--we have used if here as we don't want to show redeem option on payment pg-->
-        <div class="input-group">
-        <!--here couponform is the key to CouponForm Class value in forms.py-->
-        {{ couponform.code }}
-        <div class="input-group-append">
-            <button class="btn btn-secondary btn-md waves-effect m-0" type="submit">Redeem</button>
-        </div>
-        </div>
-        
-    </form>
+  <!-- Cart -->
+  <ul class="list-group mb-3 z-depth-1">
+    {% for order_item in order.items.all %}
+    <li class="list-group-item d-flex justify-content-between lh-condensed">
+      <div>
+        <h6 class="my-0">
+          <span class="badge badge-secondary pl-2 pr-2"
+            >{{order_item.quantity }} x</span
+          >
+          {{order_item.item.title }}
+        </h6>
+        <small class="text-muted">{{ order_item.item.description }}</small>
+      </div>
+      <span class="text-muted">&#x20B9;{{order_item.get_final_price }}</span>
+    </li>
+    {% endfor %} {% if order.coupon %}
+    <li class="list-group-item d-flex justify-content-between bg-light">
+      <div class="text-success">
+        <h6 class="my-0">Promo code</h6>
+        <small>{{order.coupon.code}}</small>
+      </div>
+      <span class="text-success">-&#x20B9;{{order.coupon.amount }}</span>
+    </li>
     {% endif %}
-    <!-- Promo code -->
+    <li class="list-group-item d-flex justify-content-between">
+      <span>Total: </span>
+      <strong>&#x20B9;{{order.get_total }}</strong>
+    </li>
+  </ul>
+  <!-- Cart -->
 
+  <!-- Promo code -->
+  <!--if you don't specify the method as POST error would be "didn't return an HTTPPRESPONSE object-->
+  <!--bascically it would try a get request-->
 
-  </div>
+  <!--DISPLY_COUPON_FORM is given to context of both checkout and paymnet pg and kept true/false according to the need-->
+  {% if DISPLAY_COUPON_FORM %}
+  <form class="card p-2" action="{% url 'core:add-coupon' %}" method="POST">
+    {% csrf_token %}
+    <!--we have used if here as we don't want to show redeem option on payment pg-->
+    <div class="input-group">
+      <!--here couponform is the key to CouponForm Class value in forms.py-->
+      {{ couponform.code }}
+      <div class="input-group-append"></div>
+    </div>
+    <button
+      class="btn btn-secondary btn-md waves-effect mt-3 mb-2 site-btn"
+      type="submit"
+    >
+      Redeem
+    </button>
+  </form>
+  {% endif %}
+  <!-- Promo code -->
+</div>
