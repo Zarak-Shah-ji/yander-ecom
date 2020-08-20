@@ -43,7 +43,7 @@ class OrderSummaryView(LoginRequiredMixin,View):
             }
             return render(self.request,'order_summary.html',context)
         except ObjectDoesNotExist:
-            messages.warning(self.request,"You don't have any active order, Buy something first")
+            messages.warning(self.request,"You don't have any active order, add something to your cart first")
             return redirect("/")
     
 
@@ -500,7 +500,7 @@ def add_to_cart(request,slug):
         ordered_date =timezone.now()
         order = Order.objects.create(user=request.user,ordered_date=ordered_date)
         order.items.add(order_item)
-        messages.info(request,"This item was added to your cart Boss." )
+        messages.info(request,"Item was added to your cart" )
         #as this is a redirect func so kwargs not used but directly slug =slug
         return redirect("core:order-summary")
 
@@ -525,11 +525,11 @@ def remove_from_cart(request,slug):
                 ordered=False
             )[0]
             order.items.remove(order_item)
-            messages.info(request,"This item was removed from your cart Boss." )
+            messages.info(request,"Item was removed from your cart" )
             return redirect("core:order-summary")
         else:
             #add a msg saying the order does not contain the item
-            messages.info(request,"This item was not in your cart Boss." )
+            messages.info(request,"This item was not in your cart" )
             return redirect("core:product",slug=slug)
     else:
         #add amsg saying the user doesnt hve an order

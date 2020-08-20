@@ -22,7 +22,7 @@
     <li>
       <a href="{% url 'core:order-summary' %}"
         ><span class="icon_bag_alt"></span>
-        <div class="tip">{% if request.user|cart_item_count == None %}<span>0</span>{% else %}<span>{{request.user|cart_item_count}}</span>{% endif %}</div>
+        <div class="tip"><span>{{request.user|cart_item_count}}</span></div>
       </a>
     </li> 
     {% endif %}
