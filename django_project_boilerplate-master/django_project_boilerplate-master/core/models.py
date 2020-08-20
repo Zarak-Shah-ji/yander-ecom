@@ -82,6 +82,17 @@ class Item(models.Model):
         return reverse("core:remove-from-cart",kwargs={
             'slug': self.slug
         })
+
+    def get_add_to_wishlist_url(self):
+        return reverse("core:add_to_wishlist",kwargs={
+            'slug': self.slug
+        })
+    
+    
+    def get_remove_from_wishlist_url(self):
+        return reverse("core:remove_from_wishlist",kwargs={
+            'slug': self.slug
+        })
     
    
     
@@ -227,6 +238,52 @@ def userprofile_receiver(sender,instance,created, *args, **kwargs):
 post_save.connect(userprofile_receiver,sender=settings.AUTH_USER_MODEL)
 
 
+
+class WishlistItem(models.Model):
+
+
+    already_added=models.BooleanField(default=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE)# here CASCADE is the behavior to adopt when the referenced object(because it is a foreign key) is deleted. it is not specific to django,this is an sql standard.
+    item = models.ForeignKey(Item,on_delete =models.CASCADE)
+  
+
+    def __str__(self):
+        return f"{self.item.title}"
+   
+    def get_total_item_price(self):
+        return self.item.price
+
+    def get_total_discount_item_price(self):
+        return self.item.discount_price
+
+    def get_amount_saved(self):
+        return self.get_total_item_price() - self.get_total_discount_item_price()
+
+    def get_final_price(self):
+        if self.item.discount_price:
+            return self.get_total_discount_item_price()
+        return self.get_total_item_price()
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+
+    items = models.ManyToManyField(WishlistItem)
+
+    already_added = models.BooleanField(default=False)
+    date_created = models.DateTimeField()
+
+    def __str__(self):
+        return self.user.username
+
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        #subtract amount of coupon applied from total here
+        #if self.coupon:
+            #total -= self.coupon.amount
+        return total
 #<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<self parameter >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #The self parameter is a reference to the current instance of the class, and is used to access variables that belongs to the class.
 # #It does not have to be named self , you can call it whatever you like, but it has to be the first parameter of any function in the class:

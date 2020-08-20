@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 #importing our models to use their field in the context
-from .models import Item,Order,OrderItem,Address,Payment,Coupon,Refund, UserProfile
+from .models import Item,Order,OrderItem,Address,Payment,Coupon,Refund, UserProfile,WishlistItem,Wishlist
 from django.utils import timezone
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -519,7 +519,7 @@ def remove_from_cart(request,slug):
         order = order_qs[0]
         #check if the order item is in the order
         if order.items.filter(item__slug =item.slug).exists():
-            order_item = OrderItem.objects.get_or_create(
+            order_item = OrderItem.objects.filter(
                 item=item,
                 user = request.user,
                 ordered=False
@@ -673,3 +673,89 @@ class MyCustomSignupForm(CreateView):
 
         # You must return the original result.
      #   return user
+
+
+
+@login_required
+def add_to_wishlist(request,slug):
+    item = get_object_or_404(Item,slug=slug)
+
+    wished_item,created = WishlistItem.objects.get_or_create(
+    item=item,
+    user = request.user,
+    already_added=False
+    )
+
+    wishlist_qs = Wishlist.objects.filter(user=request.user,already_added=False)
+    
+    if wishlist_qs.exists():
+        wishlist = wishlist_qs[0]
+        if wishlist.items.filter(item__slug=item.slug).exists():
+            messages.info(request,'The item is already in your wishlist')
+            return redirect("core:product",slug=slug)
+        else:
+            wishlist.items.add(wished_item)
+            messages.info(request,"This item was added to your wishlist" )
+            return redirect("core:product",slug=slug)
+
+    else:
+        date_created =timezone.now()
+        wishlist = Wishlist.objects.create(user=request.user,date_created=date_created)
+        wishlist.items.add(wished_item)
+        messages.info(request,"This item was added to your wishlist" )
+        return redirect("core:product",slug=slug)
+
+@login_required
+def remove_from_wishlist(request,slug):
+    item = get_object_or_404(Item,slug=slug) 
+
+    wishlist_qs = Wishlist.objects.filter(user=request.user,already_added=False)
+    
+    if wishlist_qs.exists():
+        wishlist = wishlist_qs[0]
+        if wishlist.items.filter(item__slug=item.slug).exists():
+            wished_item =  WishlistItem.objects.filter(
+            item=item,
+            user = request.user,
+            already_added=False
+            )[0]
+            wishlist.items.remove(wished_item)
+            messages.info(request,"This item was removed from your wishlist" )
+            return redirect("core:wishlist-summary")
+        else:
+            messages.info(request,"This item was not in your wishlist" )
+            return redirect("core:product",slug=slug)
+
+    
+
+    else:
+        messages.info(request,"You have an empty wishlist" )
+        return redirect("core:product",slug=slug)
+    
+
+class WishlistSummaryView(LoginRequiredMixin,View):
+    def get(self,*args, **kwargs):
+        try:
+            wishlist = Wishlist.objects.get(user=self.request.user,already_added=False)
+            context = {
+                'object':wishlist
+            }
+            return render(self.request,'wishlist_summary.html',context)
+        except ObjectDoesNotExist:
+            messages.info(self.request,"You have an empty Wishlist")
+            return redirect("/")
+
+
+
+    
+
+
+    #logic for adding a item to cart
+
+   # 1.take an item
+   # 2.create an orderitem
+     #  {if user has an order}
+    #3.assign the orderitem to order
+   #    {else}
+    #4. create the order
+    

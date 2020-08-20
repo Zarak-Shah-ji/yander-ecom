@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+ 
+{% block content %}
+  <!--Main layout-->
+  <main>
+    <div class="container mt-4">
+      <div class="table-responsive text-nowrap">
+       <h2>Your favourite items!</h2>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item title</th>
+                  <th scope="col">Price</th>
+
+               </tr>
+              </thead>
+              <tbody>
+                  <!--as here items is the field of Order Model which has manytomany relation with Orderitem model -->
+                  <!--all is used here bcoz there is manytomany relation btwn orderitem and order model-->
+                {% for wishlist_item in object.items.all %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <!--for loop variable accesing the field of OrderItem models namely item which has a relation with Item Model 
+                 which has the Title field-->
+                  <td>{{ wishlist_item.item.title }}</td>
+                  <td>${{wishlist_item.item.price}}</td>
+                  <td>
+                    {% if wishlist_item.item.discount_price %}
+                        ${{ wishlist_item.get_total_discount_item_price }}
+                        <span class="badge badge-success">saved ${{ wishlist_item.get_amount_saved }}</span>
+                    {% else %}
+                         ${{ wishlist_item.get_total_item_price }}
+                    {% endif %}
+                  <a  style='color:red' href="{% url 'core:remove_from_wishlist' wishlist_item.item.slug %}"> <i class="fas fa-dumpster float-right"></i></a>
+                 </td>
+                 <td>
+                <a href="{% url 'core:add-to-cart' wishlist_item.item.slug %}" class="btn btn-primary btn-md my-0 p">Add to cart
+                  <i class="fas fa-shopping-cart ml-1"></i>
+                </a> 
+                </td>
+                
+
+                </tr>
+                
+              <!--for if cart is empty-->
+              {% empty %}
+              <tr>
+                <td colspan="5">Your wishlist is empty</td>
+             </tr>
+              <tr>
+                <td colspan="5"> <a class="btn btn-amber float-right" href="/">Continue Shopping</a></td>
+             </tr>
+             <!--empty end-->
+           {% endfor %}
+              
+            
+                
+           
+                <tr>
+                  <td colspan ="5">
+                        <a class="btn btn-amber float-right" href="/">Continue Shopping</a>
+                    </td>
+                </tr>
+                   
+              </tbody>
+            </table>
+          
+          </div>
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+ {% endblock content %}
