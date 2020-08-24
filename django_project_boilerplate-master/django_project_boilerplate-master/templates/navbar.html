@@ -2,9 +2,9 @@
 {% load cart_template_tags %}
 
 <!-- Page Preloder -->
-<div id="preloder">
+<!-- <div id="preloder">
   <div class="loader"></div>
-</div>
+</div> -->
 
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
@@ -13,15 +13,15 @@
   <ul class="offcanvas__widget" style="margin-right: 23px; text-align: right;">
     <li><span class="icon_search search-switch    "></span></li>
     {% if request.user.is_authenticated %}
-    <!-- <li>
-      <a href="#"
-        ><span class="icon_heart_alt"></span>
-        <div class="tip">2</div>
-      </a>
-    </li> -->
     <li>
-      <a href="{% url 'core:order-summary' %}"
-        ><span class="icon_bag_alt"></span>
+      <a href="{% url 'core:wishlist-summary' %}"
+        ><span class="icon_heart_alt"></span>
+        <!-- <div class="tip"><span></span></div> -->
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'core:order-summary' %}"> 
+        <span class="icon_bag_alt"></span>
         <div class="tip"><span>{{request.user|cart_item_count}}</span></div>
       </a>
     </li> 
@@ -73,6 +73,7 @@
         <nav class="header__menu">
           <ul>
             <li class="active"><a href="{% url 'core:home' %}">Home</a></li>
+            <li><a href="#">Shop</a></li>
             <li><a href="#">Clothing</a>
               <ul class="dropdown">
                 <li>
@@ -93,8 +94,8 @@
                 <li><a href="./blog-details.html">More  </a></li>
               </ul>
             </li>
-            <li><a href="./blog.html">Blog</a></li>
-            <li><a href="./contact.html">Contact</a></li>
+            
+            <li><a href="{% url 'core:contact' %}">Contact</a></li>
           </ul>
         </nav>
       </div>
@@ -103,12 +104,12 @@
           {% if request.user.is_authenticated %}
           <ul class="header__right__widget">
             <li><span class="icon_search search-switch"></span></li>
-            <!-- <li>
-              <a href="#"
+            <li>
+              <a href="{% url 'core:wishlist-summary' %}"
                 ><span class="icon_heart_alt"></span>
-                <div class="tip">2</div>
+                <!-- <div class="tip"></div> -->
               </a>
-            </li> -->
+            </li>
             <li>
               <a href="{% url 'core:order-summary' %}"
                class= ><span class="icon_bag_alt"></span>

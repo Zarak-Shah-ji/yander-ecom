@@ -17,6 +17,7 @@ add_to_wishlist,
 remove_from_wishlist,
 WishlistSummaryView
 )
+from django.views.generic import TemplateView
 
 app_name = 'core'
 #when a class based view is called use the as.view func
@@ -37,6 +38,9 @@ urlpatterns = [
     path('wishlist-summary/',WishlistSummaryView.as_view(), name='wishlist-summary'),
     path('add_to_wishlist/<slug>/',add_to_wishlist, name='add_to_wishlist'),
     path('remove_from_wishlist/<slug>/',remove_from_wishlist, name='remove_from_wishlist'),
+    path('contact/', 
+    TemplateView.as_view(template_name='contact.html'),
+    name='contact'),
 ]
 #purana kaam
 if settings.DEBUG:

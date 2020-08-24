@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import CheckoutForm,CouponForm,RefundForm,PaymentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import stripe
 import random 
 import string
@@ -30,7 +31,7 @@ def create_ref_code():
 
 class HomeView(ListView):
     model = Item
-    paginate_by =10
+    paginate_by = 8
     template_name = "home-page.html"
 
 
@@ -740,14 +741,15 @@ class WishlistSummaryView(LoginRequiredMixin,View):
             context = {
                 'object':wishlist
             }
+            
+          
+
             return render(self.request,'wishlist_summary.html',context)
         except ObjectDoesNotExist:
             messages.info(self.request,"You have an empty Wishlist")
             return redirect("/")
+        
 
-
-
-    
 
 
     #logic for adding a item to cart
@@ -759,3 +761,5 @@ class WishlistSummaryView(LoginRequiredMixin,View):
    #    {else}
     #4. create the order
     
+
+
