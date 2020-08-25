@@ -8,8 +8,13 @@ from django.db.models.signals import post_save
 CATEGORY_CHOICES =(
     #'what goes in db' ,'what is displayed'
     ('S','Shawls'),
-    ('SW','Sports wear'),
-    ('OW','Outwear')
+    ('G','Gowns'),
+    ('SC','Scarfs'),
+    ('D','Decor'),
+    ('SF','Saffron'),
+    ('H','Honey'),
+    ('T','Tea'),
+    ('DF','Dry-Fruits'),   
 )
 
 LABEL_CHOICES =(
