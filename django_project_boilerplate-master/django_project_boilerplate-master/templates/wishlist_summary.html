@@ -31,11 +31,14 @@
               <div
                 class="product__item__pic set-bg"
                 data-setbg="{{  wishlist_item.item.image.url }}"
+				data-link="{{ wishlist_item.item.get_absolute_url }}"
               >
                 <div class="label new">New</div>
                 <ul class="product__hover">
                   <li>
-                    <a href="{{ item.image.url }}" class="image-popup"
+                    <a
+                      href="{{ wishlist_item.item.image.url }}"
+                      class="image-popup"
                       ><span class="arrow_expand"></span
                     ></a>
                   </li>

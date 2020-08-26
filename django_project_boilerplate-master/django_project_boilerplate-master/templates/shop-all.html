@@ -31,6 +31,7 @@
               <div
                 class="product__item__pic set-bg"
                 data-setbg="{{ item.image.url }}"
+				data-link="{{ item.get_absolute_url }}"
               >
                 <div class="label new">New</div>
                 <ul class="product__hover">
@@ -45,7 +46,7 @@
                     ></a>
                   </li>
                   <li>
-                    <a href="{{ item.get_absolute_url }}"
+                    <a href="{{item.get_add_to_cart_url }}"
                       ><span class="icon_bag_alt"></span
                     ></a>
                   </li>

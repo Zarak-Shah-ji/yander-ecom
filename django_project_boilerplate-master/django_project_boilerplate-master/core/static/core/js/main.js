@@ -26,7 +26,9 @@
     --------------------*/
   $(".set-bg").each(function () {
     var bg = $(this).data("setbg");
+    var link = $(this).data("link");
     $(this).css("background-image", "url(" + bg + ")");
+    $(this).wrap($("<a>").attr("href", link));
   });
 
   //Search Switch

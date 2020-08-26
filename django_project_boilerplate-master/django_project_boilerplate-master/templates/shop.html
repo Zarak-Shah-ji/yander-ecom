@@ -12,7 +12,7 @@
 			{% if request.path == '/shop/clothing/' %}
 			<span>Clothing</span>
 			{% elif request.path == '/shop/foods/' %}
-		    <span>Foods</span>
+		    <span>Organic Foods</span>
 			{% elif request.path == '/shop/decor/' %}
 		    <span>Decor</span>
 			{% elif request.path == '/shop/clothing/shawls/' %}
@@ -25,16 +25,16 @@
 			<a href="{% url 'core:clothing' %}"><i></i> Clothing</a>
 			<span>Scarfs</span>
 			{% elif request.path == '/shop/foods/saffron/' %}
-			<a href="{% url 'core:foods' %}"><i></i> Foods</a>
+			<a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
 			<span>Saffron</span>
 			{% elif request.path == '/shop/foods/honey/' %}
-			<a href="{% url 'core:foods' %}"><i></i> Foods</a>
+			<a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
 			<span>Honey</span>
 			{% elif request.path == '/shop/foods/tea/' %}
-			 <a href="{% url 'core:foods' %}"><i></i> Foods</a>
+			 <a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
 			<span>Tea</span>
 			{% elif request.path == '/shop/foods/dryfruits/'%}
-			 <a href="{% url 'core:foods' %}"><i></i> Foods</a>
+			 <a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
 			<span>Dry Fruits</span>
 			{% endif%}
         </div>
@@ -81,6 +81,7 @@
               <div
                 class="product__item__pic set-bg"
                 data-setbg="{{ item.image.url }}"
+				data-link="{{ item.get_absolute_url }}"
               >
                 <div class="label new">New</div>
                 <ul class="product__hover">
@@ -95,7 +96,7 @@
                     ></a>
                   </li>
                   <li>
-                    <a href="{{ item.get_absolute_url }}"
+                    <a href="{{item.get_add_to_cart_url }}"
                       ><span class="icon_bag_alt"></span
                     ></a>
                   </li>

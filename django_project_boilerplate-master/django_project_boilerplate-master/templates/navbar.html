@@ -88,7 +88,7 @@
               </ul></li>
               <li {% if request.path == "/shop/decor/" %} class="active" {% endif %}><a href="{% url 'core:decor' %}">Decor</a></li>
             <li {% if request.path == "/shop/foods/" or request.path == "/shop/foods/saffron/" or request.path == "/shop/foods/honey/" or request.path == "/shop/foods/tea/" or request.path == "/shop/foods/dryfruits/" %} class="active" {% endif %}>
-              <a href="{% url 'core:foods' %}">Food</a>
+              <a href="{% url 'core:foods' %}">Organic Foods</a>
               <ul class="dropdown">
                 <li>
                   <a href="{% url 'core:saffron' %}">Saffron</a>

@@ -31,7 +31,7 @@
             >
               <div class="categories__text">
                 <h4>Saffron</h4>
-                <p>358 items</p>
+                <!-- <p>358 items</p> -->
                 <a href="{% url 'core:saffron' %}">Shop now</a>
               </div>
             </div>
@@ -43,7 +43,7 @@
             >
               <div class="categories__text">
                 <h4>Organic Honey</h4>
-                <p>273 items</p>
+                <!-- <p>273 items</p> -->
                 <a href="{% url 'core:honey' %}">Shop now</a>
               </div>
             </div>
@@ -55,7 +55,7 @@
             >
               <div class="categories__text">
                 <h4>Dry Fruits</h4>
-                <p>159 items</p>
+                <!-- <p>159 items</p> -->
                 <a href="{% url 'core:dryfruits' %}">Shop now</a>
               </div>
             </div>
@@ -67,7 +67,7 @@
             >
               <div class="categories__text">
                 <h4>Organic Tea</h4>
-                <p>792 items</p>
+                <!-- <p>792 items</p> -->
                 <a href="{% url 'core:tea' %}">Shop now</a>
               </div>
             </div>
@@ -106,6 +106,7 @@
           <div
             class="product__item__pic set-bg"
             data-setbg="{{ item.image.url }}"
+            data-link="{{ item.get_absolute_url }}"
           >
             <div class="label new">New</div>
             <ul class="product__hover">
@@ -120,7 +121,7 @@
                 ></a>
               </li>
               <li>
-                <a href="{{ item.get_absolute_url }}"
+                <a href="{{item.get_add_to_cart_url }}"
                   ><span class="icon_bag_alt"></span
                 ></a>
               </li>
