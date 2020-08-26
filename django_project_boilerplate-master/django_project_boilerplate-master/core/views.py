@@ -11,9 +11,20 @@ from django.utils import timezone
 from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import CheckoutForm,CouponForm,RefundForm,PaymentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import stripe
 import random 
 import string
+
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+from django.core.mail import EmailMessage
+from django.template import Context
+from django.template.loader import get_template
+from django.core.mail import mail_admins
+
+
 # Create your views here.
 
 #stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -30,7 +41,7 @@ def create_ref_code():
 
 class HomeView(ListView):
     model = Item
-    paginate_by =10
+    paginate_by = 8
     template_name = "home-page.html"
 
 
@@ -267,6 +278,10 @@ class CheckoutView(View):
                     order.being_delivered=True
                     order.save()
                     messages.success(self.request,"Your order has been successfully placed, keep your Cash ready at the time of delivery")
+                    msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
+                    msg.send()
+                    admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
+                    admin_msg.send()
                     return redirect("/",payment_option='Cash-On-Delivery')
                     
 
@@ -408,6 +423,10 @@ class PaymentView(View):
            #######################   PLACE END  ###########################
                             
             messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
+            msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
+            msg.send()
+            admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
+            admin_msg.send()
         #redirect is used to go back to homepage after order succesffuly placed
             return redirect("/")
 
@@ -428,6 +447,10 @@ class PaymentView(View):
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
             messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
+            msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
+            msg.send()
+            admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
+            admin_msg.send()
             return redirect("/")
 
         except stripe.error.AuthenticationError as e:
@@ -740,14 +763,24 @@ class WishlistSummaryView(LoginRequiredMixin,View):
             context = {
                 'object':wishlist
             }
+            
+          
+
             return render(self.request,'wishlist_summary.html',context)
         except ObjectDoesNotExist:
             messages.info(self.request,"You have an empty Wishlist")
             return redirect("/")
 
 
+class ShopAllView(ListView):
+    model = Item
+    paginate_by = 8
+    template_name = "shop-all.html"
 
-    
+
+class ShopView(ListView):
+    model = Item
+    template_name = "shop.html"
 
 
     #logic for adding a item to cart
@@ -759,3 +792,5 @@ class WishlistSummaryView(LoginRequiredMixin,View):
    #    {else}
     #4. create the order
     
+
+

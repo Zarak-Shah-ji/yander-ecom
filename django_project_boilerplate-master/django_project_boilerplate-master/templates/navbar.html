@@ -2,29 +2,33 @@
 {% load cart_template_tags %}
 
 <!-- Page Preloder -->
-<!-- <div id="preloder">
+<div id="preloder">
   <div class="loader"></div>
-</div> -->
+</div>
 
 <!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
   <div class="offcanvas__close">+</div>
-  <ul class="offcanvas__widget" style="margin-right: 23px; text-align: right;">
-    <li><span class="icon_search search-switch    "></span></li>
+  <ul class="offcanvas__widget" style="margin-right: 23px; text-align: left;">
+    <!-- <li><span class="icon_search search-switch    "></span></li> -->
     {% if request.user.is_authenticated %}
-    <!-- <li>
-      <a href="#"
-        ><span class="icon_heart_alt"></span>
-        <div class="tip">2</div>
-      </a>
-    </li> -->
+    <div class="header__right__auth mr-4 pr-2">
+      <a ><strong>{{ request.user }}</strong></a>
+    </div>
     <li>
-      <a href="{% url 'core:order-summary' %}"
-        ><span class="icon_bag_alt"></span>
+      <a href="{% url 'core:wishlist-summary' %}"
+        ><span class="icon_heart_alt"></span>
+        <!-- <div class="tip"><span></span></div> -->
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'core:order-summary' %}"> 
+        <span class="icon_bag_alt"></span>
         <div class="tip"><span>{{request.user|cart_item_count}}</span></div>
       </a>
     </li> 
+    
     {% endif %}
   </ul>
   <div class="offcanvas__logo">
@@ -72,53 +76,60 @@
       <div class="col-xl-6 col-lg-7">
         <nav class="header__menu">
           <ul>
-            <li class="active"><a href="{% url 'core:home' %}">Home</a></li>
-            <li><a href="#">Clothing</a>
+            <li {% if request.path == "/" %} class="active" {% endif %}><a href="{% url 'core:home' %}">Home</a></li>
+            <li {% if request.path == "/shop-all/" %} class="active" {% endif %}><a href="{% url 'core:shop-all' %}">Shop</a></li>
+            <li {% if request.path == "/shop/clothing/" or request.path == "/shop/clothing/shawls/" or request.path == "/shop/clothing/gowns/" or request.path == "/shop/clothing/scarfs/" %} class="active" {% endif %}><a href="{% url 'core:clothing' %}">Clothing</a>
               <ul class="dropdown">
                 <li>
-                  <a href="./product-details.html">Shawls</a>
+                  <a href="{% url 'core:shawls' %}">Shawls</a>
                 </li>
-                <li><a href="./checkout.html">Gowns</a></li>
-                <li><a href="./blog-details.html">Scarfs</a></li>
+                <li><a href="{% url 'core:gowns' %}">Gowns</a></li>
+                <li><a href="{% url 'core:scarfs' %}">Scarfs</a></li>
               </ul></li>
-              <li><a href="#">Decor</a></li>
-            <li>
-              <a href="#">Food</a>
+              <li {% if request.path == "/shop/decor/" %} class="active" {% endif %}><a href="{% url 'core:decor' %}">Decor</a></li>
+            <li {% if request.path == "/shop/foods/" or request.path == "/shop/foods/saffron/" or request.path == "/shop/foods/honey/" or request.path == "/shop/foods/tea/" or request.path == "/shop/foods/dryfruits/" %} class="active" {% endif %}>
+              <a href="{% url 'core:foods' %}">Organic Foods</a>
               <ul class="dropdown">
                 <li>
-                  <a href="./product-details.html">Saffron</a>
+                  <a href="{% url 'core:saffron' %}">Saffron</a>
                 </li>
-                <li><a href="./shop-cart.html">Honey</a></li>
-                <li><a href="./checkout.html">Dry Fruits</a></li>
-                <li><a href="./blog-details.html">More  </a></li>
+                <li><a href="{% url 'core:dryfruits' %}">Dry Fruits</a></li>
+                <li><a href="{% url 'core:honey' %}">Organic Honey</a></li>
+                <li><a href="{% url 'core:tea' %}">Organic Tea</a></li>
               </ul>
             </li>
-            <li><a href="./blog.html">Blog</a></li>
-            <li><a href="./contact.html">Contact</a></li>
+            
+            <li {% if request.path == "/contact/" %} class="active" {% endif %}><a href="{% url 'core:contact' %}">Contact</a></li>
           </ul>
         </nav>
       </div>
       <div class="col-lg-3">
         <div class="header__right">
           {% if request.user.is_authenticated %}
+         
           <ul class="header__right__widget">
-            <li><span class="icon_search search-switch"></span></li>
-            <!-- <li>
-              <a href="#"
+            <!-- <li><span class="icon_search search-switch"></span></li> -->
+            <li>
+              <a href="{% url 'core:wishlist-summary' %}"
                 ><span class="icon_heart_alt"></span>
-                <div class="tip">2</div>
+                <!-- <div class="tip"></div> -->
               </a>
-            </li> -->
+            </li>
             <li>
               <a href="{% url 'core:order-summary' %}"
                class= ><span class="icon_bag_alt"></span>
                 <div class="tip">{% if request.user|cart_item_count == None %}<span>0</span>{% else %}<span>{{request.user|cart_item_count}}</span>{% endif %}</div>
               </a>
             </li>
+            
           </ul>
+          <div class="header__right__auth pl-4 mr-0 ml-3">
+            <a><strong>{{ request.user }}</strong></a>
+          </div>
           <div class="header__right__auth pl-4">
             <a href="{% url 'account_logout' %}">Logout</a>
           </div>
+          
           {% else %}
           <div class="header__right__auth">
             <a href="{% url 'account_login' %}">Login</a>

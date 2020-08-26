@@ -1,0 +1,137 @@
+{% extends "base.html" %} {% block content %}
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__links">
+          <a href="{% url 'core:home' %}"><i class="fa fa-home"></i> Home</a>
+          <a href="{% url 'core:shop-all' %}"><i></i> Shop</a>
+			{% if request.path == '/shop/clothing/' %}
+			<span>Clothing</span>
+			{% elif request.path == '/shop/foods/' %}
+		    <span>Organic Foods</span>
+			{% elif request.path == '/shop/decor/' %}
+		    <span>Decor</span>
+			{% elif request.path == '/shop/clothing/shawls/' %}
+			 <a href="{% url 'core:clothing' %}"><i></i> Clothing</a>
+			<span>Shawls</span>
+			{% elif request.path == '/shop/clothing/gowns/' %}
+			<a href="{% url 'core:clothing' %}"><i></i> Clothing</a>
+			<span>Gowns</span>
+			{% elif request.path == '/shop/clothing/scarfs/' %}
+			<a href="{% url 'core:clothing' %}"><i></i> Clothing</a>
+			<span>Scarfs</span>
+			{% elif request.path == '/shop/foods/saffron/' %}
+			<a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
+			<span>Saffron</span>
+			{% elif request.path == '/shop/foods/honey/' %}
+			<a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
+			<span>Honey</span>
+			{% elif request.path == '/shop/foods/tea/' %}
+			 <a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
+			<span>Tea</span>
+			{% elif request.path == '/shop/foods/dryfruits/'%}
+			 <a href="{% url 'core:foods' %}"><i></i>Organic Foods</a>
+			<span>Dry Fruits</span>
+			{% endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Heading -->
+			{% if request.path == '/shop/clothing/' %}
+			<h2 class="my-5 h2 text-center"><b>Clothing</b></h2>
+			{% elif request.path == '/shop/foods/' %}
+		    <h2 class="my-5 h2 text-center"><b>Foods</b></h2>
+			{% elif request.path == '/shop/decor/' %}
+		    <h2 class="my-5 h2 text-center"><b>Decor</b></h2>
+			{% elif request.path == '/shop/clothing/shawls/' %}
+			<h2 class="my-5 h2 text-center"><b>Shawls</b></h2>
+			{% elif request.path == '/shop/clothing/gowns/' %}
+			<h2 class="my-5 h2 text-center"><b>Gowns</b></h2>
+			{% elif request.path == '/shop/clothing/scarfs/' %}
+			<h2 class="my-5 h2 text-center"><b>Scarfs</b></h2>
+			{% elif request.path == '/shop/foods/saffron/' %}
+			<h2 class="my-5 h2 text-center"><b>Saffron</b></h2>
+			{% elif request.path == '/shop/foods/honey/' %}
+			<h2 class="my-5 h2 text-center"><b>Organic Honey</b></h2>
+			{% elif request.path == '/shop/foods/tea/' %}
+			<h2 class="my-5 h2 text-center"><b>Organic Tea</b></h2>
+			{% elif request.path == '/shop/foods/dryfruits/'%}
+			<h2 class="my-5 h2 text-center"><b>Dry Fruits</b></h2>
+			{% endif%}
+
+<!-- Shop Section Begin -->
+<section class="shop spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-md-12">
+        <div class="row">
+          {% for item in object_list %}
+           {% if request.path == '/shop/clothing/' and item.category == 'S' or request.path == '/shop/clothing/' and item.category == 'G' or request.path == '/shop/clothing/' and item.category == 'SC' or request.path == '/shop/clothing/shawls/' and item.category == 'S' or request.path == '/shop/clothing/gowns/' and item.category == 'G' or request.path == '/shop/clothing/scarfs/' and item.category == 'SC' or request.path == '/shop/decor/' and item.category == 'D' or request.path == '/shop/foods/' and item.category == 'SF' or request.path == '/shop/foods/' and item.category == 'H' or request.path == '/shop/foods/' and item.category == 'T' or request.path == '/shop/foods/' and item.category == 'DF' or request.path == '/shop/foods/saffron/' and item.category == 'SF' or request.path == '/shop/foods/honey/' and item.category == 'H' or request.path == '/shop/foods/tea/' and item.category == 'T' or request.path == '/shop/foods/dryfruits/' and item.category == 'DF' %}
+         
+          <div class="col-lg-3 col-md-4 col-sm-6 mix women">
+            <div class="product__item">
+              <div
+                class="product__item__pic set-bg"
+                data-setbg="{{ item.image.url }}"
+				data-link="{{ item.get_absolute_url }}"
+              >
+                <div class="label new">New</div>
+                <ul class="product__hover">
+                  <li>
+                    <a href="{{ item.image.url }}" class="image-popup"
+                      ><span class="arrow_expand"></span
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="{{ item.get_add_to_wishlist_url }}"
+                      ><span class="icon_heart_alt"></span
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="{{item.get_add_to_cart_url }}"
+                      ><span class="icon_bag_alt"></span
+                    ></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="product__item__text">
+                <h6>
+                  <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                </h6>
+                <div class="rating">
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                  <i class="fa fa-star"></i>
+                </div>
+                {% if item.discount_price %}
+                <div class="product__price">
+                  <span>&#x20B9;{{ item.price }} </span>
+                  &#x20B9;{{ item.discount_price }}
+                </div>
+                {% else %}
+                <div class="product__price">
+                  &#x20B9;{{ item.price }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shop Section End -->
+{% endblock content %}

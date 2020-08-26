@@ -15,8 +15,11 @@ RequestRefundView,
 MyCustomSignupForm,
 add_to_wishlist,
 remove_from_wishlist,
-WishlistSummaryView
+WishlistSummaryView,
+ShopAllView,
+ShopView,
 )
+from django.views.generic import TemplateView
 
 app_name = 'core'
 #when a class based view is called use the as.view func
@@ -37,6 +40,21 @@ urlpatterns = [
     path('wishlist-summary/',WishlistSummaryView.as_view(), name='wishlist-summary'),
     path('add_to_wishlist/<slug>/',add_to_wishlist, name='add_to_wishlist'),
     path('remove_from_wishlist/<slug>/',remove_from_wishlist, name='remove_from_wishlist'),
+    path('contact/', 
+    TemplateView.as_view(template_name='contact.html'),
+    name='contact'),
+    path('shop-all/',ShopAllView.as_view(), name='shop-all'),
+    path('shop/clothing/',ShopView.as_view(), name='clothing'),
+    path('shop/clothing/shawls/',ShopView.as_view(), name='shawls'),
+    path('shop/clothing/gowns/',ShopView.as_view(), name='gowns'),
+    path('shop/clothing/scarfs/',ShopView.as_view(), name='scarfs'),
+    path('shop/decor/',ShopView.as_view(), name='decor'),
+    path('shop/foods/',ShopView.as_view(), name='foods'),
+    path('shop/foods/saffron/',ShopView.as_view(), name='saffron'),
+    path('shop/foods/honey/',ShopView.as_view(), name='honey'),
+    path('shop/foods/tea/',ShopView.as_view(), name='tea'),
+    path('shop/foods/dryfruits/',ShopView.as_view(), name='dryfruits'),
+    
 ]
 #purana kaam
 if settings.DEBUG:
