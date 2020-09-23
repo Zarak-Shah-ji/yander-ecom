@@ -6,7 +6,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')
 DEBUG = True
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
-ALLOWED_HOSTS = ['127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1']
 SECRET_KEY = config('SECRET_KEY')
 
 INSTALLED_APPS = [
@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'core',
-    'debug_toolbar'
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -121,7 +121,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
  
  ###for signup prob###
 
-ACCOUNT_FORMS = {'signup': 'core.forms.MyCustomSignupForm'}
+#ACCOUNT_FORMS = {'signup': 'core.forms.MyCustomSignupForm'}
 
 
 
@@ -171,3 +171,4 @@ EMAIL_HOST_PASSWORD = 'yander@ecom'
 EMAIL_USE_TLS =True
 
 ####################################################################################################################
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000

@@ -71,17 +71,30 @@
       </div>
       <div class="col-lg-4 col-md-8 col-sm-8">
         <div class="footer__newslatter">
-          <h6>NEWSLETTER</h6>
+          <h6>REFUND REQUEST</h6>
           <form action="#">
-            <input type="text" placeholder="Email" />
-            <button type="submit" class="site-btn">Subscribe</button>
+            <button type="submit" class="site-btn">
+              <a href="{% url 'core:request-refund' %}" style="color: white"
+                >Ask for refund</a
+              >
+            </button>
+            <br />
+            <br />
           </form>
           <div class="footer__social text-center">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-youtube-play"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-            <a href="#"><i class="fa fa-pinterest"></i></a>
+            <a href="https://www.facebook.com/zarak.mohammad/"
+              ><i class="fa fa-facebook"></i
+            ></a>
+            <a href="http://twitter.com/mylkshaykh"
+              ><i class="fa fa-twitter"></i
+            ></a>
+            <a href="https://www.youtube.com/channel/UCjhlU4lmHx8V-JHg7pX9Hlw"
+              ><i class="fa fa-youtube-play"></i
+            ></a>
+            <a href="https://www.instagram.com/foxdie.offical/?hl=en"
+              ><i class="fa fa-instagram"></i
+            ></a>
+            <!---- <a href="#"><i class="fa fa-pinterest"></i></a>-->
           </div>
         </div>
       </div>

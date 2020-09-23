@@ -56,7 +56,7 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-#inherits models class defined in django
+#inherits models module Model Class defined in django
 #Model for the items we can purchase
 #but when you add a item to the cart it becomes Orderitem
 class Item(models.Model):

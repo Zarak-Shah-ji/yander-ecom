@@ -96,7 +96,7 @@ class CheckoutView(View):
             if shipping_address_qs.exists():
                 context.update(
                     {
-                        'default_shipping_address':shipping_address_qs[0] #q[0]=the first value inside the query set
+                        'default_shipping_address':shipping_address_qs[len(shipping_address_qs)-1] #q[0]=the first value inside the query set
                     }
                 )
 
@@ -108,7 +108,7 @@ class CheckoutView(View):
             if billing_address_qs.exists():
                 context.update(
                     {
-                        'default_billing_address':billing_address_qs[0] #[0]?
+                        'default_billing_address':billing_address_qs[len(billing_address_qs)-1] #[0]?
                     }
                 )
 
@@ -140,7 +140,7 @@ class CheckoutView(View):
                     )
                     #checking if the user has a default address
                     if address_qs.exists():
-                        shipping_address = address_qs[0] #here the shipping address would get filled withe default address used
+                        shipping_address = address_qs[len(address_qs)-1] #here the shipping address would get filled withe default address used
                         order.shipping_address = shipping_address
                         order.save()
                        
@@ -180,7 +180,8 @@ class CheckoutView(View):
                             shipping_address.default= True
                             shipping_address.save()
                     else:
-                        message.info(self.request,"Please fill in the required shipping address fields")
+                        messages.info(self.request,"Please fill in the required shipping address fields")
+                        return redirect("core:checkout")
              
                 
                 use_default_billing = form.cleaned_data.get('use_default_billing')
@@ -188,14 +189,17 @@ class CheckoutView(View):
 
                #checking first if the user has same billing address as shipping address
                 if same_billing_address:
-                    billing_address = shipping_address
-                    billing_address.pk = None #for cloning it and not simply taking the orgnal value
-                    billing_address.save() #we save so that a new address is created in db which = to the current  shipping address
-                    billing_address.address_type = 'B' #changing the type to billing
-                    billing_address.save() #saving it now as a billing address
-                    order.billing_address = billing_address #we associate the blng addrs to the current order
-                    order.save() # then here save it onto the order
-
+                    try:
+                        billing_address = shipping_address
+                        billing_address.pk = None #for cloning it and not simply taking the orgnal value
+                        billing_address.save() #we save so that a new address is created in db which = to the current  shipping address
+                        billing_address.address_type = 'B' #changing the type to billing
+                        billing_address.save() #saving it now as a billing address
+                        order.billing_address = billing_address #we associate the blng addrs to the current order
+                        order.save() # then here save it onto the order
+                    except:
+                         messages.info(self.request,"No default shipping address available")
+                         return redirect("core:checkout")
 
                
                 #if the default address is used
@@ -208,7 +212,7 @@ class CheckoutView(View):
                     )
                     #checking if the user has a default address
                     if address_qs.exists():
-                        billing_address = address_qs[0] #here the shipping address would get filled withe default address used
+                        billing_address = address_qs[len(address_qs)-1] #here the shipping address would get filled withe default address used
                         order.billing_address = billing_address
                         order.save()
                     else:
@@ -248,6 +252,7 @@ class CheckoutView(View):
                             billing_address.save()
                     else:
                         messages.info(self.request,"Please fill in the required billing address fields")
+                        return redirect("core:checkout")
 
                 payment_option = form.cleaned_data.get('payment_option')
 
@@ -256,6 +261,7 @@ class CheckoutView(View):
                 elif payment_option == 'P':
                     return redirect('core:payment',payment_option='paypal')
                 elif payment_option == 'C':
+                    #if shipping_address or billing_address == None:
                     #creating payment
                     payment = Payment() 
                     payment.stripe_charge_id = random.vonmisesvariate(0,4)
@@ -280,7 +286,7 @@ class CheckoutView(View):
                     messages.success(self.request,"Your order has been successfully placed, keep your Cash ready at the time of delivery")
                     msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
                     msg.send()
-                    admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
+                    admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'])
                     admin_msg.send()
                     return redirect("/",payment_option='Cash-On-Delivery')
                     
@@ -425,7 +431,7 @@ class PaymentView(View):
             messages.success(self.request,"Your order has been successfully placed, be ready for delivery soon")
             msg = EmailMessage('Thanks for Shopping with us','Your Order Is Confirmed.', 'yander.helpdesk@gmail.com', to=[self.request.user.email])
             msg.send()
-            admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['jahanzaibmlk321@gmail.com'])
+            admin_msg = EmailMessage('New Order','We have a new order, check Admin.', 'yander.helpdesk@gmail.com', to=['zarak.shahjee1@gmail.com','jahanzaibmlk321@gmail.com'])
             admin_msg.send()
         #redirect is used to go back to homepage after order succesffuly placed
             return redirect("/")
@@ -525,7 +531,7 @@ def add_to_cart(request,slug):
         order.items.add(order_item)
         messages.info(request,"Item was added to your cart" )
         #as this is a redirect func so kwargs not used but directly slug =slug
-        return redirect("core:order-summary")
+        return redirect("core:product",slug=slug)
 
 @login_required
 def remove_from_cart(request,slug):
